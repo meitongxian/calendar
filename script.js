@@ -1,3 +1,18 @@
+// resize vh for mobile
+mobileResize();
+
+function mobileResize() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+window.addEventListener('resize', () => {
+    mobileResize();
+});
+
+
+// load numbers
+
 let now = new Date();
 
 let yearNumber = now.getFullYear();
