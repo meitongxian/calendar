@@ -45,31 +45,34 @@ function updateSelected() {
 
     //place hours
     let hoursWrapper = document.querySelector(".hours-wrapper");
-    placeNumbers(24, hoursWrapper, now.getHours());
+    placeNumbers(24, hoursWrapper, now.getHours(), true);
 
 
     //place minutes
     let minutesWrapper = document.querySelector(".minutes-wrapper");
-    placeNumbers(60, minutesWrapper, now.getMinutes());
+    placeNumbers(60, minutesWrapper, now.getMinutes(), true);
 
 
     //place seconds
     let secondsWrapper = document.querySelector(".seconds-wrapper");
-    placeNumbers(60, secondsWrapper, now.getSeconds());
+    placeNumbers(60, secondsWrapper, now.getSeconds(), true);
 
     setTimeout(updateSelected, 1000);
 }
 
 updateSelected();
 
-
-
-function placeNumbers(total, wrapper, selected) {
+function placeNumbers(total, wrapper, selected, startAtZero = false) {
     wrapper.innerHTML = "";
- 
+
     const radiusX = window.innerWidth / 2 * 0.9;
     const radiusY = window.innerHeight / 2 * 0.9;
- 
+
+    // If the value is 0-based, remap 0 → total, otherwise keep as-is
+    const normalizedSelected = startAtZero
+        ? (selected === 0 ? total : selected)
+        : selected;
+
     for (let i = 1; i <= total; i++) {
         let angle = (i * (Math.PI * 2 / total)) - Math.PI / 2;
         let x = window.innerWidth / 2 + Math.cos(angle) * radiusX;
@@ -79,11 +82,9 @@ function placeNumbers(total, wrapper, selected) {
         unitNumber.style.left = `${x}px`;
         unitNumber.style.top = `${y}px`;
 
-        if (i == selected) {
-            unitNumber.className = "number number-selected mono";
-        } else {
-            unitNumber.className = "number mono";
-        }
+        unitNumber.className = i == normalizedSelected
+            ? "number number-selected mono"
+            : "number mono";
 
         wrapper.appendChild(unitNumber);
     }
