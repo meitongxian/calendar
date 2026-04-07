@@ -10,62 +10,81 @@ window.addEventListener('resize', () => {
     mobileResize();
 });
 
-
 // load numbers
 
-let now = new Date();
+function updateSelected() {
 
-let yearNumber = now.getFullYear();
+    let now = new Date();
 
-let isLeapYear = leapYear(yearNumber);
+    let yearNumber = now.getFullYear();
 
-function leapYear(year) {
-    return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+    let isLeapYear = leapYear(yearNumber);
+
+    function leapYear(year) {
+        return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+    }
+
+    //place months
+    let monthsWrapper = document.querySelector(".months-wrapper");
+    placeNumbers(12, monthsWrapper, now.getMonth() + 1);
+
+
+    //place days
+    let daysWrapper = document.querySelector(".days-wrapper");
+    let daysInMonth = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    let daysTotal;
+
+    if (isLeapYear == true) {
+        daysTotal = 28;
+    } else {
+        daysTotal = daysInMonth[now.getMonth()];
+    }
+    document.querySelector(".days-total").innerHTML = daysTotal;
+    placeNumbers(daysTotal, daysWrapper, now.getDate());
+    
+
+    //place hours
+    let hoursWrapper = document.querySelector(".hours-wrapper");
+    placeNumbers(24, hoursWrapper, now.getHours());
+
+
+    //place minutes
+    let minutesWrapper = document.querySelector(".minutes-wrapper");
+    placeNumbers(60, minutesWrapper, now.getMinutes());
+
+
+    //place seconds
+    let secondsWrapper = document.querySelector(".seconds-wrapper");
+    placeNumbers(60, secondsWrapper, now.getSeconds());
+
+    setTimeout(updateSelected, 1000);
 }
 
-let dayTotal = 365;
+updateSelected();
 
-if (isLeapYear == true) {
-    dayTotal = 366;
-}
 
-let numbersWrapper = document.querySelector(".numbers-wrapper");
- 
-placeNumbers();
- 
-function placeNumbers() {
-    numbersWrapper.innerHTML = "";
+
+function placeNumbers(total, wrapper, selected) {
+    wrapper.innerHTML = "";
  
     const radiusX = window.innerWidth / 2 * 0.9;
     const radiusY = window.innerHeight / 2 * 0.9;
  
-    for (let i = 1; i <= dayTotal; i++) {
-        let angle = (i * (Math.PI * 2 / dayTotal) - Math.PI / 2) - (Math.PI / dayTotal);
+    for (let i = 1; i <= total; i++) {
+        let angle = (i * (Math.PI * 2 / total)) - Math.PI / 2;
         let x = window.innerWidth / 2 + Math.cos(angle) * radiusX;
         let y = window.innerHeight / 2 + Math.sin(angle) * radiusY;
-        const dayNumber = document.createElement("span");
-        dayNumber.textContent = i;
-        dayNumber.style.left = `${x}px`;
-        dayNumber.style.top = `${y}px`;
+        const unitNumber = document.createElement("span");
+        unitNumber.textContent = i;
+        unitNumber.style.left = `${x}px`;
+        unitNumber.style.top = `${y}px`;
 
-        let currentDay = getDate();
-
-        if (i == currentDay) {
-            dayNumber.className = "number number-selected mono";
+        if (i == selected) {
+            unitNumber.className = "number number-selected mono";
         } else {
-            dayNumber.className = "number mono";
+            unitNumber.className = "number mono";
         }
 
-        numbersWrapper.appendChild(dayNumber);
+        wrapper.appendChild(unitNumber);
     }
-}
- 
-window.addEventListener('resize', placeNumbers);
-
-function getDate() {
-    var start = new Date(now.getFullYear(), 0, 0);
-    var diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
-    var oneDay = 1000 * 60 * 60 * 24;
-    var day = Math.floor(diff / oneDay);
-    return day;
 }

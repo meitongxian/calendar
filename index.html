@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>🌀</title>
+        <title>( ? )</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="styles.css">
@@ -13,9 +13,32 @@
 
     </head>
     <body>
-        <div class="serif statement"><p>This year has <span class="mono">365</span> days.</p></div>
-        <div class="numbers-wrapper">
+        <div class="year active zoom-in">
+            <div class="serif statement"><p>Why does this year have <span class="mono">12</span> months?</p></div>
+            <div class="months-wrapper">
+            </div>
         </div>
+        <div class="month zoom-in">
+            <div class="serif statement"><p>Why does this month have <span class="mono days-total"></span> days?</p></div>
+            <div class="days-wrapper">
+            </div>
+        </div>
+        <div class="days zoom-in">
+            <div class="serif statement"><p>Why does this day have <span class="mono">24</span> hours?</p></div>
+            <div class="hours-wrapper">
+            </div>
+        </div>
+        <div class="hours zoom-in">
+            <div class="serif statement"><p>Why does this hour have <span class="mono">60</span> minutes?</p></div>
+            <div class="minutes-wrapper">
+            </div>
+        </div>
+        <div class="minutes zoom-in">
+            <div class="serif statement"><p>Why does this minute have <span class="mono">60</span> seconds?</p></div>
+            <div class="seconds-wrapper">
+            </div>
+        </div>
+        
         <script src="script.js" async defer></script>
     </body> 
 </html>
