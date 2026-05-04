@@ -89,3 +89,17 @@ function placeNumbers(total, wrapper, selected, startAtZero = false) {
         wrapper.appendChild(unitNumber);
     }
 }
+
+// toggle view
+
+let wrapperArray = document.querySelectorAll(".clock-wrapper");
+let index = 0;
+
+wrapperArray[index].classList.add("active");
+
+document.body.addEventListener("click", () => {
+    wrapperArray[index].classList.remove("active");
+    index = (index + 1) % wrapperArray.length;
+    wrapperArray[index].classList.add("active");
+});
+
